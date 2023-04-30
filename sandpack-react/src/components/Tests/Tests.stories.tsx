@@ -1237,7 +1237,7 @@ I wasn't aware of that.\n";
 `
 
 const vox = `
-const axios = require('axios');
+//const axios = require('axios');
 
 // View our quick start guide to get your API key:
 // https://www.voiceflow.com/api/dialog-manager#section/Quick-Start
@@ -1255,23 +1255,78 @@ const body = {
 
 async function startInteract() {
   // Start a conversation
-  const response = await axios({
-    method: 'POST',
-    baseURL: 'https://general-runtime.voiceflow.com',
-    url: \`/state/user/\$\{userID\}/interact\`,
-    headers: {
-      Authorization: apiKey,
-    },
-    data: body,
-  });
+  // const response = await axios({
+  //   method: 'POST',
+  //   baseURL: 'https://general-runtime.voiceflow.com',
+  //   url: \`/state/user/\$\{userID\}/interact\`,
+  //   headers: {
+  //     Authorization: apiKey,
+  //   },
+  //   data: body,
+  // });
 
   // Log the response
-  console.log(response.data);
+  // console.log(response.data);
 }
 
 startInteract().catch((error) => console.error(error));
 `
 
+const index = `
+<!-- Copyright 2022 The MediaPipe Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+<h1>Recognize hand gestures using the MediaPipe HandGestureRecognizer task</h1>
+
+<section id="demos" class="invisible">
+  <h2>Demo: Recognize gestures</h2>
+  <p><em>Click on an image below</em> to identify the gestures in the image.</p>
+
+  <div class="detectOnClick">
+    <img src="https://assets.codepen.io/9177687/idea-gcbe74dc69_1920.jpg" crossorigin="anonymous" title="Click to get recognize!" />
+    <p class="classification removed">
+  </div>
+  <div class="detectOnClick">
+    <img src="https://assets.codepen.io/9177687/thumbs-up-ga409ddbd6_1.png" crossorigin="anonymous" title="Click to get recognize!" />
+    <p class="classification removed">
+  </div>
+
+  <h2><br>Demo: Webcam continuous hand gesture detection</h2>
+  <p>Use your hand to make gestures in front of the camera to get gesture classification. </br>Click <b>enable webcam</b> below and grant access to the webcam if prompted.</p>
+
+  <div id="liveView" class="videoView">
+    <button id="webcamButton" class="mdc-button mdc-button--raised">
+      <span class="mdc-button__ripple"></span>
+      <span class="mdc-button__label">ENABLE WEBCAM</span>
+    </button>
+    <div style="position: relative;">
+      <video id="webcam" autoplay playsinline></video>
+      <canvas class="output_canvas" id="output_canvas" width="1280" height="720" style="position: absolute; left: 0px; top: 0px;"></canvas>
+      <p id='gesture_output' class="output">
+    </div>
+  </div>
+</section>
+`
+
+
+const polly = `
+import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity"; import {     fromCognitoIdentityPool, } from "@aws-sdk/credential-provider-cognito-identity"; import { Polly } from "@aws-sdk/client-polly"; import { getSynthesizeSpeechUrl } from "@aws-sdk/polly-request-presigner";  // Create the Polly service client, assigning your credentials const client = new Polly({     region: "REGION",     credentials: fromCognitoIdentityPool({         client: new CognitoIdentityClient({ region: "REGION" }),         identityPoolId: "IDENTITY_POOL_ID" // IDENTITY_POOL_ID     }), });  // Set the parameters const speechParams = {     OutputFormat: "OUTPUT_FORMAT", // For example, 'mp3'     SampleRate: "SAMPLE_RATE", // For example, '16000     Text: "", // The 'speakText' function supplies this value     TextType: "TEXT_TYPE", // For example, "text"     VoiceId: "POLLY_VOICE" // For example, "Matthew" }; const speakText = async () => {     // Update the Text parameter with the text entered by the user     speechParams.Text = document.getElementById("textEntry").value;     try{         let url = await getSynthesizeSpeechUrl({             client, params: speechParams         });         console.log(url);         // Load the URL of the voice recording into the browser         document.getElementById('audioSource').src = url;         document.getElementById('audioPlayback').load();         document.getElementById('result').innerHTML = "Speech ready to play.";     } catch (err) {         console.log("Error", err);         document.getElementById('result').innerHTML = err;     } }; // Expose the function to the browser window.speakText = speakText;
+`
 
 export const SlowTest: React.FC = () => {
   return (
@@ -1302,16 +1357,15 @@ export const NoTests: React.FC = () => {
       files={{
         "/add.ts": vox,
         "/src/app/sub.ts": tweeter,
-        "/index.html": whisperIndex
+        "/polly.js": polly,
+        "/index.html": index
       }}
       theme={dracula}
     >
       <SandpackLayout style={{ "--sp-layout-height": "70vh" } as CSSProperties}>
-        // <SandpackCodeEditor showRunButton={true} showLineNumbers />
-        // <SandpackTests />
-        // <SandpackConsole />
-        // <SandpackFileExplorer />
+        <SandpackFileExplorer />
         <SandpackPreview />
+        <SandpackConsole />
       </SandpackLayout>
     </SandpackProvider>
   );
