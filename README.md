@@ -4,8 +4,11 @@ To run services, Please follow instructions:
 
 - https://github.com/graphile/starter
 - https://github.com/open-telemetry/opentelemetry-demo
+- https://github.com/ggerganov/whisper.cpp
 
-Everything else is powered by Voiceflow or runs in the browser with WASM.
+The above projects are the starting point for the customisations required for my usecase
+
+~~Everything else is powered by Voiceflow or runs in the browser with WASM.~~
 
                                    Bookmarks
 
