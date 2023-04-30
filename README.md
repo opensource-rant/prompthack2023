@@ -8,6 +8,10 @@ To run services, Please follow instructions:
 
 The above projects are the starting point for the customisations required for my usecase
 
+Here is the voiceflow file:
+
+https://github.com/opensource-rant/prompthack2023/commit/d7b525358bca05e9c05e06899c173a57b0a604f3
+
 ~~Everything else is powered by Voiceflow or runs in the browser with WASM.~~
 
                                    Bookmarks
